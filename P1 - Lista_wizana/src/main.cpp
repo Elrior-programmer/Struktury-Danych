@@ -7,15 +7,9 @@ int main() {
     for(int i = 0 ; i < 100 ; i++) {
         l.add_back(i);
     }
-    for(int i = 0 ; i < 100 ; i++) {
-        l2.add_front(i);
-    }
-    for(int i = 0 ; i < 100 ; i++) {
+    l.remove_at(6);
+    for(int i = 0 ; i < l.size ; i++) {
         std::cout<<l[i]<<"|";
-    }
-    std::cout<<"\n";
-    for(int i = 0 ; i < 100 ; i++) {
-        std::cout<<l2[i]<<"|";
     }
     std::cout<<"\n";
     return 0;

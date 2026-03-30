@@ -1,3 +1,3 @@
 all: 
-g++ .\src\main.cpp -Iinclude -o LinkedList
-./LinkedList
+	g++ src/main.cpp -Iinclude -o LinkedList 
+	./LinkedList
