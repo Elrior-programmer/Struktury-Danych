@@ -129,4 +129,17 @@ public:
         }
         return temp->value;
     }
+
+    int find(T val) {
+        Node<T>* temp = head;
+        int i = 0;
+        while(temp != nullptr) {
+            if (temp->value == val) return i;
+            else {
+                i++;
+                temp = temp->next;
+            }
+        }
+        return -1; // -1 - nie znaleziono
+    }
 };
