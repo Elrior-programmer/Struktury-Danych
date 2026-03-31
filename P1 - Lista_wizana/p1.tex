@@ -12,6 +12,7 @@
 \usepackage{bookmark}
 \usepackage{enumitem}
 \usepackage{titlesec}
+\usepackage{microtype}
 
 \title{
     \begin{center}
@@ -21,14 +22,15 @@
     \textbf{\huge Struktury danych} \\
     \vspace{0.5cm}
     \textit{Analiza porównawcza wydajności list wiązanych i tablic dynamicznych w języku C++}
-}
+    }
 \author{Piotr Frąc}
 \date{Marzec 2026}
 
 
 \begin{document}
 \maketitle
-
+\tableofcontents
+\clearpage
 \section{Wprowadzenie}
 Projekt skupia się na analizie porównawczej dwóch fundamentalnych struktur liniowych:
 \textit{linked list} i \textit{dynamic array} \\ 
@@ -45,14 +47,14 @@ Badanie ma na celu wykazanie różnic w złożoności obliczeniowej oraz praktyc
 wynikających ze specyfiki alokacji pamięci
 Pełny kod źródłowy projektu wraz z historią zmian dostępny jest w repozytorium pod adresem: 
 \url{https://github.com/Elrior-programmer/Struktury-Danych/tree/main/P1%20-%20Lista_wizana} 
-\subsection{Zaimplementowane \\ struktury danych}
+\subsection{Zaimplementowane struktury danych}
 Wszystkie struktury danych zostały wykonane zgodnie z wykładami i prezentacjami dr inż. Radosława Rudego, które są dostępne pod linkiem: 
 \url{https://kam.pwr.edu.pl/jaroslaw-rudy/#tab-struktury-danych-wyklad}
 \subsubsection*{Lista wiązana}
-Zaimplementowana \textbf{lista} jest przykładem \textit{Listy jednokierunkowej liniowej (Singly Linked List)}, 
 \begin{center}
     \includegraphics[width=\linewidth]{fig/LinkedList.png}
 \end{center}
+Zaimplementowana \textbf{lista} jest przykładem \textit{Listy jednokierunkowej liniowej (Singly Linked List)}, 
 która charakteryzuje sie:
 \begin{itemize}[nosep]
 \item \textbf{Jednokierunkowość:} Każdy węzeł (\textit{node})
@@ -65,6 +67,24 @@ Struktura posiada wyraźnie zdefiniowany początek oraz koniec.
 Ostatni element przechowuje wartość pustą (\texttt{nullptr}),
 co stanowi jednoznacznie zakończenie sekwencji danych.
 \end{itemize}
+
+\subsubsection*{Tablca Dynamiczna}
+\begin{center}
+    \includegraphics[width=\linewidth]{fig/DynamicArray.png}
+\end{center}
+Zaimplementowana \textbf{tablica dynamiczna} charakteryzuje się specyficznymi usprawnieniami implementacyjnymi:
+\begin{itemize}[label=\textbullet, nosep]
+    \item \textbf{Inicjalizacja niezerowa:} Tablica rozpoczyna pracę z domyślną pojemnością $capacity = 4$,
+     co eliminuje potrzebę realokacji przy pierwszych operacjach dodawania.
+    \item \textbf{Progresja geometryczna ($2 \times capacity$):} 
+    W przypadku przepełnienia bufora, jego rozmiar jest zwiększany dwukrotnie.
+     Zapewnia to zamortyzowany koszt dopisania elementu na poziomie $O(1)$.
+    \item \textbf{Redukcja pamięci ($capacity/2$):}
+     Gdy liczba elementów spadnie do poziomu $size \le capacity/4$, 
+     rozmiar tablicy jest zmniejszany o połowę. 
+\end{itemize}
+
+
 sprawdzam ile liniej do nowej strony \\
 sprawdzam ile liniej do nowej strony \\
 \end{document}
