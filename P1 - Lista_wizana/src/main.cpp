@@ -5,13 +5,13 @@
 #include "MovieRating.h"
 
 int main() {
-    std::ifstream filesize("data/projekt1_dane.csv", std::ios::ate | std::ios::binary);
-    std::ifstream infile("data/projekt1_dane.csv");
+    std::string dataFile = "data/projekt1_dane.csv";
+    std::ifstream filesize(dataFile, std::ios::ate | std::ios::binary);
+    std::ifstream infile(dataFile);
     if(!filesize) {
         std::cout << "Blad otwarcia pliku\n";
         return 1;
     }
-
     std::streamoff pos = filesize.tellg();  // typ liczbowy
     char c;
     std::string line;
