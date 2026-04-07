@@ -13,6 +13,7 @@
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage{microtype}
+\usepackage{varwidth}
 
 \title{
     \begin{center}
@@ -83,8 +84,76 @@ Zaimplementowana \textbf{tablica dynamiczna} charakteryzuje się specyficznymi u
      rozmiar tablicy jest zmniejszany o połowę. 
 \end{itemize}
 \newpage
-\subsection{Wykorzystane dane}
+\section{Metodyka i środowisko badawcze}
+W tej sekcji opisano parametry techniczne stanowisk testowych oraz metodologię przeprowadzenia eksperymentów wydajnościowych.
 
+\subsection{Narzędzia pomiarowe}
+Do precyzyjnego wyznaczenia czasu trwania
+operacji wykorzystano bibliotekę \texttt{<chrono>}
+oraz zegar o wysokiej rozdzielczości
+\texttt{std::chrono::high\_resolution\_clock}
+Wybór ten pozwolił na rejestrację różnic czasowych rzędu
+nanosekund, co jest kluczowe przy analizie struktur danych
+dla małych wartości $n$.
+
+
+
+\subsection{Specyfikacja stanowiska badawczego}
+Do przeprowadzenia testów porównawczych wykorzystano
+dwie maszyny o skrajnie różnych architekturach,
+co pozwala na ocenę wydajności struktur zarówno
+na nowoczesnym sprzęcie typu high-end,
+jak i na starszych jednostkach budżetowych
+
+
+\textbf{Stanowisko 1 (Wydajne):}
+\begin{itemize}[nosep]
+    \item \textbf{Procesor:} Intel Core i7-14700KF
+    \item \textbf{Słowo Procesorowe: } 64 Bity
+    \item \textbf{RAM:} 32,0 GB DDR5 (6400 MT/s)
+    \item \textbf{OS:} Windows 11 Home
+    \item \textbf{Kompilator:} g++.exe v15.2.0
+\end{itemize}
+
+\vspace{1em}
+
+\textbf{Stanowisko 2 (Starsza architektura):}
+\begin{itemize}[nosep]
+    \item \textbf{Procesor:} Intel Core i5-620
+    \item \textbf{Słowo Procesorowe: } 64 Bity
+    \item \textbf{RAM:} 8,0 GB DDR3 (1600 MT/s)
+    \item \textbf{OS:} Kali GNU/Linux 2026.1
+    \item \textbf{Kompilator:} g++ v15.2.0-15
+\end{itemize}
+
+\subsection{Zróżnicowanie rozmiaru danych}
+W badaniach wykorzystano typy danych o różnych rozmiarach w celu analizy wpływu szerokości słowa procesorowego na wydajność struktur:
+
+\begin{itemize}[label=\textbullet, nosep]
+    \item \textbf{Small (1 B):} Typ \texttt{char} – dane wielokrotnie mniejsze od słowa procesorowego.
+    \item \textbf{Word-aligned (8 B):} Typ \texttt{long long} – rozmiar odpowiadający natywnemu słowu architektury x86-64.
+    \item \textbf{Medium (24 B):} Struktura złożona z trzech słów – wymaga wielokrotnego dostępu do pamięci dla jednego obiektu.
+    \item \textbf{Large (256 B):} Duży obiekt testujący koszt kopiowania danych przy realokacji tablicy oraz zalety przepinania wskaźników w liście.
+\end{itemize}
+
+\subsection{Wykonane experymenty}
+Dla każdej struktury danych przeprowadzono
+trzy rodzaje eksperymentów,
+powtarzając je dla wszystkich czterech
+typów danych (char, long long, Medium 24B, Large 256B). 
+\begin{itemize}
+    \item \textbf{Dodawanie elementów} dla trzech wariantów wstawiania: na początku struktury, na środku (indeks n/2) oraz na końcu.
+    \item \textbf{Usuwanie elementów} analogicznie do dodawania, usuwanie badano w trzech miejscach: z początku, ze środka (indeks n/2) oraz z końca struktury. 
+    \item \textbf{Wyszukiwanie pierwszego elementu k} w strukturze o wielkosci miliona 
+\end{itemize}
+\subsubsection*{Metodyka pomiarów}
+Każdy eksperyment powtórzono 10-krotnie, 
+a wynik końcowy stanowi średnią arytmetyczną z tych prób. 
+Pozwala to zminimalizować wpływ zakłóceń systemowych. 
+Pomiary wykonywano niezależnie na obu stanowiskach badawczych opisanych w 
+sekcji 2.2.
+
+\section{Wyniki i wnioski}
 sprawdzam ile liniej do nowej strony \\
 sprawdzam ile liniej do nowej strony \\
 \end{document}

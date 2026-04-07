@@ -58,7 +58,10 @@ public:
             add_front(val);
             return;
         }
-
+        if(index == size) {
+            add_back(val);
+            return;
+        }
         Node<T>* newNode = new Node<T>(val);
         Node<T>* temp = head;
         for(unsigned int i = 0; i < index - 1; i++) {
