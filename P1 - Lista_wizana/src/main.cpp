@@ -12,10 +12,10 @@ template <typename T>
 void badania_dodawania(int n, std::string outFile, int range);
 void loadingScreen(int i, int n);
 int main() {
-    std::string outFile = "data/S2_List_add_front_char.csv";
+    std::string outFile = "data/S2_List_add_front_longlong.csv";
     int range = 1000000;
     for(int i =0  ;i < 10 ; i++) {
-        badania_dodawania<char>(i,outFile,range);
+        badania_dodawania<long long>(i,outFile,range);
     }
     return 0;
 }
