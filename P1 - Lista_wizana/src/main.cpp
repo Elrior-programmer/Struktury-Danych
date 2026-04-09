@@ -12,11 +12,11 @@ template <typename T>
 void badania_dodawania(int n, std::string outFile, int range);
 void loadingScreen(int i, int n);
 int main() {
-    std::string outFile = "data/LinkedList_small_addFront_50_10000.csv";
+    std::string outFile = "data/S2_List_add_front_char.csv";
     int range = 1000000;
-   // for(int i =0  ;i < 10 ; i++) {
-        badania_dodawania<char>(0,outFile,range);
-   // }
+    for(int i =0  ;i < 10 ; i++) {
+        badania_dodawania<char>(i,outFile,range);
+    }
     return 0;
 }
 template <typename T>
@@ -26,7 +26,7 @@ void badania_dodawania(int n, std::string outFile, int range) {
     std::uniform_int_distribution<int> dist(0, 255);
     std::ofstream File(outFile, std::ios::app);
     LinkedList<T> lista;
-    for(int i = 0 ; i < range/5 ; i++) {
+    for(int i = 0 ; i < range ; i++) {
         volatile T temp_data = static_cast<T>(dist(rng));
         auto start = std::chrono::high_resolution_clock::now();
             lista.add_front(temp_data);
