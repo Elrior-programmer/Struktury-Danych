@@ -16,11 +16,14 @@ void badania_dodawania(int n, std::string outFile, int range);
 template <typename T>
 void badania_odejmowania(int n, std::string outFile, int range) ;
 
+template <typename T>
+void badania_wyszukiwania(int n, std::string outFile, int range) ;
+
 int main() {
-    std::string outFile = "data/S2_List_remove_back_Large.csv";
+    std::string outFile = "data/S2_List_find_longlong.csv";
     int range = 1000000;
     for(int i =0  ;i < 10 ; i++) {
-        badania_odejmowania<Large>(i,outFile,range);
+        badania_wyszukiwania<long long>(i,outFile,range);
     }
     return 0;
 }
@@ -67,7 +70,7 @@ void badania_dodawania(int n, std::string outFile, int range) {
     std::mt19937 rng(std::random_device{}());
     std::ofstream File(outFile, std::ios::app);
 
-    LinkedList<T> lista;
+    LinkedList<T> l;
 
     for (int i = 0; i < range; i++) {
 
@@ -75,7 +78,7 @@ void badania_dodawania(int n, std::string outFile, int range) {
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        lista.add_at(temp_data,lista.size/2);
+        l.add_at(temp_data,l.size/2);
 
         auto stop = std::chrono::high_resolution_clock::now();
 
@@ -94,11 +97,11 @@ void badania_odejmowania(int n, std::string outFile, int range) {
     std::mt19937 rng(std::random_device{}());
     std::ofstream File(outFile, std::ios::app);
 
-    LinkedList<T> lista;
+    DynamicArray<T> arr;
 
     for (int i = 0; i < range; i++) {
         T temp_data = generate_data<T>(rng);
-        lista.add_front(temp_data);
+        arr.add_back(temp_data);
     }
 
     for (int i = 0; i < range; i++) {
@@ -106,7 +109,7 @@ void badania_odejmowania(int n, std::string outFile, int range) {
 
         auto start = std::chrono::high_resolution_clock::now();
 
-        lista.remove_back();
+        arr.remove_front();
 
         auto stop = std::chrono::high_resolution_clock::now();
 
@@ -114,6 +117,24 @@ void badania_odejmowania(int n, std::string outFile, int range) {
 
         auto czas = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
 
+        File << n << ";" << i << ";" << czas << "\n";
+    }
+}
+template <typename T>
+void badania_wyszukiwania(int n, std::string outFile, int range) {
+    std::mt19937 rng(std::random_device{}());
+    std::ofstream File(outFile, std::ios::app);
+
+    LinkedList<T> l;
+
+    l.add_front(-1);
+    for(int i = 1 ; i < range ; i++) {
+        T temp_data = generate_data<T>(rng);
+        l.add_front(temp_data);
+        auto start = std::chrono::high_resolution_clock::now();
+        l.find(-1);
+        auto stop = std::chrono::high_resolution_clock::now();
+        auto czas = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count();
         File << n << ";" << i << ";" << czas << "\n";
     }
 }
