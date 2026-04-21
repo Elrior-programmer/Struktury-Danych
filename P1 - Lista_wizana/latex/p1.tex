@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,twocolumn]{article}
+\documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{polski}
@@ -14,6 +14,8 @@
 \usepackage{titlesec}
 \usepackage{microtype}
 \usepackage{varwidth}
+\usepackage{multicol}
+
 
 \title{
     \begin{center}
@@ -31,6 +33,9 @@
 \begin{document}
 \maketitle
 \clearpage
+
+\begin{multicols}{2}
+
 \section{Wprowadzenie}
 Projekt skupia się na analizie porównawczej dwóch fundamentalnych struktur liniowych:
 \textit{linked list} i \textit{dynamic array} \\ 
@@ -83,7 +88,9 @@ Zaimplementowana \textbf{tablica dynamiczna} charakteryzuje się specyficznymi u
      Gdy liczba elementów spadnie do poziomu $size \le capacity/4$, 
      rozmiar tablicy jest zmniejszany o połowę. 
 \end{itemize}
-\newpage
+
+
+
 \section{Metodyka i środowisko badawcze}
 W tej sekcji opisano parametry techniczne stanowisk testowych oraz metodologię przeprowadzenia eksperymentów wydajnościowych.
 
@@ -100,24 +107,9 @@ dla małych wartości $n$.
 
 \subsection{Specyfikacja stanowiska badawczego}
 Do przeprowadzenia testów porównawczych wykorzystano
-dwie maszyny o skrajnie różnych architekturach,
-co pozwala na ocenę wydajności struktur zarówno
-na nowoczesnym sprzęcie typu high-end,
-jak i na starszych jednostkach budżetowych
+starsza maszyne pomiarową.
 
-
-\textbf{Stanowisko 1 (Wydajne):}
-\begin{itemize}[nosep]
-    \item \textbf{Procesor:} Intel Core i7-14700KF
-    \item \textbf{Słowo Procesorowe: } 64 Bity
-    \item \textbf{RAM:} 32,0 GB DDR5 (6400 MT/s)
-    \item \textbf{OS:} Windows 11 Home
-    \item \textbf{Kompilator:} g++.exe v15.2.0
-\end{itemize}
-
-\vspace{1em}
-
-\textbf{Stanowisko 2 (Starsza architektura):}
+\textbf{Stanowisko (Starsza architektura):}
 \begin{itemize}[nosep]
     \item \textbf{Procesor:} Intel Core i5-620
     \item \textbf{Słowo Procesorowe: } 64 Bity
@@ -126,15 +118,12 @@ jak i na starszych jednostkach budżetowych
     \item \textbf{Kompilator:} g++ v15.2.0-15
 \end{itemize}
 
-\subsection{Zróżnicowanie rozmiaru danych}
-W badaniach wykorzystano typy danych o różnych rozmiarach w celu analizy wpływu szerokości słowa procesorowego na wydajność struktur:
+\subsection{Dane}
+W badaniach wykorzystano \textbf{Word-aligned (8 B):} 
+Typ \texttt{long long} rozmiar odpowiadający natywnemu słowu
+architektury x86-64. Dane były tworzone losowo aby unikąć optymalicacji 
+przec CPU
 
-\begin{itemize}[label=\textbullet, nosep]
-    \item \textbf{Small (1 B):} Typ \texttt{char} – dane wielokrotnie mniejsze od słowa procesorowego.
-    \item \textbf{Word-aligned (8 B):} Typ \texttt{long long} – rozmiar odpowiadający natywnemu słowu architektury x86-64.
-    \item \textbf{Medium (24 B):} Struktura złożona z trzech słów – wymaga wielokrotnego dostępu do pamięci dla jednego obiektu.
-    \item \textbf{Large (256 B):} Duży obiekt testujący koszt kopiowania danych przy realokacji tablicy oraz zalety przepinania wskaźników w liście.
-\end{itemize}
 
 \subsection{Wykonane experymenty}
 Dla każdej struktury danych przeprowadzono
@@ -153,61 +142,134 @@ Pozwala to zminimalizować wpływ zakłóceń systemowych.
 Pomiary wykonywano niezależnie na obu stanowiskach badawczych opisanych w 
 sekcji 2.2.
 
+\end{multicols}
+
 \section{Wyniki i wnioski}
-\begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_Array_add_at_longlong_srednia.png}
-\end{center}
+
+Poniżej zestawiono wyniki pomiarów dla obu struktur według rodzaju operacji.
+Każda para wykresów przedstawia tę samą operację wykonaną odpowiednio
+na tablicy dynamicznej i liście wiązanej, co umożliwia bezpośrednie porównanie.
+
+% -------------------------------------------------------
+\subsection*{Dodawanie elementu na początku}
 
 \begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_Array_at_back_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_Array_at_front_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_List_add_front_longlong_srednia.png}
 \end{center}
 
-\begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_Array_at_front_longlong_srednia.png}
-\end{center}
+\textbf{Wnioski:}
+Dodawanie na początku tablicy dynamicznej wymaga przesunięcia wszystkich
+istniejących elementów o jedną pozycję w prawo, co skutkuje złożonością $O(n)$.
+Lista wiązana wykonuje tę operację w czasie stałym $O(1)$ — wystarczy
+utworzyć nowy węzeł i ustawić jego wskaźnik na dotychczasową głowę.
+Wykresy potwierdzają liniowy wzrost czasu dla tablicy przy rosnącym $n$
+oraz niemal poziomą charakterystykę listy.
+
+% -------------------------------------------------------
+\subsection*{Dodawanie elementu na końcu}
 
 \begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_Array_find_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_Array_at_back_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_List_add_back_longlong_srednia.png}
 \end{center}
 
-\begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_Array_remove_at_longlong_srednia.png}
-\end{center}
+\textbf{Wnioski:}
+Tablica dynamiczna dodaje element na końcu w zamortyzowanym czasie $O(1)$
+dzięki strategii podwajania pojemności. Widoczne skokowe wzrosty czasu
+odpowiadają momentom realokacji bufora.
+Lista wiązana nie posiada wskaźnika na ogon (\textit{tail}),
+więc każde dodanie na końcu wymaga przejścia przez wszystkie węzły —
+złożoność $O(n)$. Wykres listy wykazuje wyraźny liniowy wzrost czasu
+wraz z~$n$, podczas gdy tablica utrzymuje niemal stały czas wykonania..
+
+% -------------------------------------------------------
+\subsection*{Dodawanie elementu na zadanym indeksie (środek)}
 
 \begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_Array_remove_back_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_Array_add_at_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_List_add_at_longlongv2_srednia.png}
 \end{center}
 
-\begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_Array_remove_front_longlongv2_srednia.png}
-\end{center}
+\textbf{Wnioski:}
+Obie struktury wykazują złożoność $O(n)$ przy wstawianiu w środku —
+tablica przesuwa elementy, lista musi dotrzeć do węzła o indeksie $n/2$.
+W praktyce tablica osiąga lepsze wyniki dzięki spójności pamięci podręcznej
+(\textit{cache locality}): przesuwanie ciągłego bloku danych jest znacznie
+szybsze niż sekwencyjne dereferencjonowanie wskaźników w liście.
+
+% -------------------------------------------------------
+\subsection*{Usuwanie elementu z początku}
 
 \begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_List_add_at_longlongv2_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_Array_remove_front_longlongv2_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_List_remove_front_longlong_srednia.png}
 \end{center}
 
-\begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_List_add_back_longlong_srednia.png}
-\end{center}
+\textbf{Wnioski:}
+Analogicznie do dodawania: usunięcie pierwszego elementu tablicy wymaga
+przesunięcia całej reszty ($O(n)$), natomiast lista aktualizuje jedynie
+wskaźnik głowy ($O(1)$). Różnica wyraźnie rośnie wraz z $n$,
+co wykresy potwierdzają rosnącą rozbieżnością krzywych.
+
+% -------------------------------------------------------
+\subsection*{Usuwanie elementu z końca}
 
 \begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_List_add_front_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_Array_remove_back_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_List_remove_back_longlong_srednia.png}
 \end{center}
 
-\begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_List_find_longlong_srednia.png}
-\end{center}
+\textbf{Wnioski:}
+Tablica usuwa ostatni element w czasie $O(1)$ (z ewentualną redukcją
+pojemności przy $size \le capacity/4$).
+Lista wiązana bez wskaźnika na ogon musi każdorazowo
+przejść całą strukturę, aby dotrzeć do przedostatniego węzła —
+złożoność $O(n)$. To jeden z kluczowych przypadków,
+gdzie tablica dynamiczna wyraźnie przewyższa listę jednokierunkową,
+co potwierdzają wykresy pokazujące liniowy wzrost czasu dla listy.
+
+% -------------------------------------------------------
+\subsection*{Usuwanie elementu o zadanym indeksie (środek)}
 
 \begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_List_remove_at_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_Array_remove_at_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_List_remove_at_longlong_srednia.png}
 \end{center}
 
-\begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_List_remove_back_longlong_srednia.png}
-\end{center}
+\textbf{Wnioski:}
+Obie struktury wymagają $O(n)$ — tablica przesuwa elementy,
+lista przechodzi do węzła poprzedzającego usuwany.
+Podobnie jak przy wstawianiu w środku, lepsza lokalność pamięci
+tablicy przekłada się na niższe bezwzględne czasy wykonania.
+
+% -------------------------------------------------------
+\subsection*{Wyszukiwanie elementu}
 
 \begin{center}
-    \includegraphics[width=\linewidth]{wykresy/S2_List_remove_front_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_Array_find_longlong_srednia.png}
+    \includegraphics[width=0.85\linewidth]{wykresy/S2_List_find_longlong_srednia.png}
 \end{center}
-sprawdzam ile liniej do nowej strony \\
+
+\textbf{Wnioski:}
+Obie struktury realizują wyszukiwanie liniowe $O(n)$.
+Tablica osiąga znacznie krótsze czasy dzięki ciągłemu układowi
+danych w pamięci, który pozwala procesorowi efektywnie
+prefetchować kolejne elementy do cache.
+Lista wiązana, operując na rozproszonych węzłach, generuje
+częste chybienia pamięci podręcznej (\textit{cache miss}),
+co istotnie spowalnia operację dla dużych $n$.
+
+% -------------------------------------------------------
+\subsection*{Podsumowanie}
+
+Przeprowadzone eksperymenty potwierdzają teoretyczne złożoności obliczeniowe
+obu struktur. Lista wiązana dominuje przy operacjach na początku struktury
+($O(1)$ vs $O(n)$), natomiast tablica dynamiczna okazuje się lepsza
+w operacjach na końcu oraz we wszystkich scenariuszach wymagających
+przeszukiwania, dzięki lepszej lokalności pamięci podręcznej.
+Wybór struktury powinien być podyktowany profilem dominujących operacji
+w danym zastosowaniu.
+
+
 \end{document}
