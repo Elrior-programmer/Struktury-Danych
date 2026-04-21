@@ -150,7 +150,7 @@ Poniżej zestawiono wyniki pomiarów dla obu struktur według rodzaju operacji.
 Każda para wykresów przedstawia tę samą operację wykonaną odpowiednio
 na tablicy dynamicznej i liście wiązanej, co umożliwia bezpośrednie porównanie.
 
-% -------------------------------------------------------
+
 \subsection*{Dodawanie elementu na początku}
 
 \begin{center}
@@ -166,7 +166,7 @@ utworzyć nowy węzeł i ustawić jego wskaźnik na dotychczasową głowę.
 Wykresy potwierdzają liniowy wzrost czasu dla tablicy przy rosnącym $n$
 oraz niemal poziomą charakterystykę listy.
 
-% -------------------------------------------------------
+
 \subsection*{Dodawanie elementu na końcu}
 
 \begin{center}
@@ -183,7 +183,7 @@ więc każde dodanie na końcu wymaga przejścia przez wszystkie węzły —
 złożoność $O(n)$. Wykres listy wykazuje wyraźny liniowy wzrost czasu
 wraz z~$n$, podczas gdy tablica utrzymuje niemal stały czas wykonania..
 
-% -------------------------------------------------------
+
 \subsection*{Dodawanie elementu na zadanym indeksie (środek)}
 
 \begin{center}
@@ -198,7 +198,7 @@ W praktyce tablica osiąga lepsze wyniki dzięki spójności pamięci podręczne
 (\textit{cache locality}): przesuwanie ciągłego bloku danych jest znacznie
 szybsze niż sekwencyjne dereferencjonowanie wskaźników w liście.
 
-% -------------------------------------------------------
+
 \subsection*{Usuwanie elementu z początku}
 
 \begin{center}
@@ -212,7 +212,7 @@ przesunięcia całej reszty ($O(n)$), natomiast lista aktualizuje jedynie
 wskaźnik głowy ($O(1)$). Różnica wyraźnie rośnie wraz z $n$,
 co wykresy potwierdzają rosnącą rozbieżnością krzywych.
 
-% -------------------------------------------------------
+
 \subsection*{Usuwanie elementu z końca}
 
 \begin{center}
@@ -229,7 +229,7 @@ złożoność $O(n)$. To jeden z kluczowych przypadków,
 gdzie tablica dynamiczna wyraźnie przewyższa listę jednokierunkową,
 co potwierdzają wykresy pokazujące liniowy wzrost czasu dla listy.
 
-% -------------------------------------------------------
+
 \subsection*{Usuwanie elementu o zadanym indeksie (środek)}
 
 \begin{center}
@@ -243,7 +243,7 @@ lista przechodzi do węzła poprzedzającego usuwany.
 Podobnie jak przy wstawianiu w środku, lepsza lokalność pamięci
 tablicy przekłada się na niższe bezwzględne czasy wykonania.
 
-% -------------------------------------------------------
+
 \subsection*{Wyszukiwanie elementu}
 
 \begin{center}
@@ -260,7 +260,7 @@ Lista wiązana, operując na rozproszonych węzłach, generuje
 częste chybienia pamięci podręcznej (\textit{cache miss}),
 co istotnie spowalnia operację dla dużych $n$.
 
-% -------------------------------------------------------
+
 \subsection*{Podsumowanie}
 
 Przeprowadzone eksperymenty potwierdzają teoretyczne złożoności obliczeniowe
