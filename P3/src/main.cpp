@@ -5,12 +5,11 @@
 #include "Hashmap.h"
 
 int additiveHash(std::string key, int table_size) {
-    int sum = 0;
-    for (int i = 0 ; i < key.size() ; i++) {
-        int c = key[i];
-        sum += c;
+    unsigned int sum = 0;
+    for (int i = 0 ; i < (int)key.size() ; i++) {
+        sum += (unsigned char)key[i];
     }
-    return sum%table_size;
+    return (int)(sum % (unsigned int)table_size);
 }
 
 int polynomialHash(std::string key, int table_size, int p = 131) {
@@ -24,13 +23,12 @@ int polynomialHash(std::string key, int table_size, int p = 131) {
     return sum;
 }
 
-long long djb2Hash(std::string key, int table_size) {
-    long long hash_val = 5381; // *magic number*
-    for (int i = 0 ; i < key.size() ; i++) {
-        int c = key[i];
-        hash_val = ((hash_val << 5) + hash_val) + c;
+int djb2Hash(std::string key, int table_size) {
+    unsigned long long hash_val = 5381;
+    for (int i = 0 ; i < (int)key.size() ; i++) {
+        hash_val = ((hash_val << 5) + hash_val) + (unsigned char)key[i];
     }
-    return hash_val%table_size;
+    return (int)(hash_val % (unsigned long long)table_size);
 }
 
 bool nextPermutation(std::string& s) {

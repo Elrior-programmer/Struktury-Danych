@@ -128,7 +128,7 @@ public:
 
     void remove_at(unsigned int index) {
         if (head == nullptr) return;
-        if (size == 1) {
+        if (index == 0) {
             remove_front();
             return;
         }
@@ -136,7 +136,7 @@ public:
             throw std::out_of_range("Index out of range");
         }
         Node<T>* temp = head;
-        for(int i =0 ; i < index - 1 ; i++) {
+        for(unsigned int i = 0 ; i < index - 1 ; i++) {
             temp = temp->next;
         }
         Node<T>* temp2 = temp->next;
